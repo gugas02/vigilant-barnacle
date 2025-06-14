@@ -1,0 +1,68 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/backend/Ambev.DeveloperEvaluation.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/backend/Ambev.DeveloperEvaluation.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/backend/Ambev.DeveloperEvaluation.sln"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "create-migration",
+            "command": "dotnet ef migrations add ${input:MigrationName}",
+            "type": "shell",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}/backend/src/Ambev.DeveloperEvaluation.WebApi"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "update-migration",
+            "command": "dotnet ef database update",
+            "type": "shell",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}/backend/src/Ambev.DeveloperEvaluation.WebApi"
+            },
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "MigrationName",
+            "description": "Migration Name:",
+            "type": "promptString"
+        },
+    ]
+}
