@@ -27,9 +27,9 @@ public static class ActiveUserSpecificationTestData
             Email = f.Internet.Email(),
             Password = $"Test@{f.Random.Number(100, 999)}",
             Username = f.Name.FirstName(),
-            Status = f.PickRandom<UserStatus>(),
+            Status = f.PickRandom<EUserStatus>(),
             Phone = $"+55{f.Random.Number(11, 99)}{f.Random.Number(100000000, 999999999)}",
-            Role = f.PickRandom<UserRole> ()
+            Role = f.PickRandom<EUserRole> ()
         });
 
     /// <summary>
@@ -37,7 +37,7 @@ public static class ActiveUserSpecificationTestData
     /// </summary>
     /// <param name="status">The UserStatus to set for the generated user.</param>
     /// <returns>A valid User entity with randomly generated data and specified status.</returns>
-    public static User GenerateUser(UserStatus status)
+    public static User GenerateUser(EUserStatus status)
     {
         var user = userFaker.Generate();
         user.Status = status;

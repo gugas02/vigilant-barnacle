@@ -1,6 +1,6 @@
 namespace Ambev.DeveloperEvaluation.Domain.Enums;
 
-public enum UserRole
+public enum EUserRole
 {
     None = 0,
     Customer,    

@@ -7,17 +7,14 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 /// <summary>
 /// Implementation of IUserRepository using Entity Framework Core
 /// </summary>
-public class UserRepository : IUserRepository
+public class UserRepository : BaseRepository<User>, IUserRepository
 {
-    private readonly DefaultContext _context;
-
     /// <summary>
     /// Initializes a new instance of UserRepository
     /// </summary>
     /// <param name="context">The database context</param>
-    public UserRepository(DefaultContext context)
+    public UserRepository(DefaultContext context): base(context)
     {
-        _context = context;
     }
 
     /// <summary>
@@ -28,8 +25,7 @@ public class UserRepository : IUserRepository
     /// <returns>The created user</returns>
     public async Task<User> CreateAsync(User user, CancellationToken cancellationToken = default)
     {
-        await _context.Users.AddAsync(user, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
+        await Add(user, cancellationToken);
         return user;
     }
 
@@ -41,7 +37,7 @@ public class UserRepository : IUserRepository
     /// <returns>The user if found, null otherwise</returns>
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Users.FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
+        return await Find(id, cancellationToken);
     }
 
     /// <summary>
@@ -52,8 +48,7 @@ public class UserRepository : IUserRepository
     /// <returns>The user if found, null otherwise</returns>
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        return await _context.Users
-            .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+        return await FindFirstOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
 
     /// <summary>
@@ -61,15 +56,18 @@ public class UserRepository : IUserRepository
     /// </summary>
     /// <param name="id">The unique identifier of the user to delete</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>True if the user was deleted, false if not found</returns>
-    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public void Delete(User user, CancellationToken cancellationToken = default)
     {
-        var user = await GetByIdAsync(id, cancellationToken);
-        if (user == null)
-            return false;
+        Remove(user);
+    }
 
-        _context.Users.Remove(user);
-        await _context.SaveChangesAsync(cancellationToken);
-        return true;
+    /// <summary>
+    /// Update a user in the repository
+    /// </summary>
+    /// <param name="user">The user to update</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    public void Update(User user, CancellationToken cancellationToken = default)
+    {
+        base.Update(user);
     }
 }

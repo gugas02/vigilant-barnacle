@@ -1,11 +1,13 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Enums;
+using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.WebApi.Features.Common;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
 
 /// <summary>
 /// Represents a request to create a new user in the system.
 /// </summary>
-public class CreateUserRequest
+public class CreateUserRequest : ApiRequest
 {
     /// <summary>
     /// Gets or sets the username. Must be unique and contain only valid characters.
@@ -28,12 +30,25 @@ public class CreateUserRequest
     public string Email { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets the user's fullname.
+    /// Must not be null or empty and should contain both first and last names.
+    /// </summary>
+    public CreateNameRequest Name { get; set; }
+
+    /// <summary>
+    /// Gets the user's Address.
+    /// Must not be null or empty and should contain user main address.
+    /// </summary>
+    public CreateAddressRequest Address { get; set; }
+
+
+    /// <summary>
     /// Gets or sets the initial status of the user account.
     /// </summary>
-    public UserStatus Status { get; set; }
+    public EUserStatus Status { get; set; }
 
     /// <summary>
     /// Gets or sets the role assigned to the user.
     /// </summary>
-    public UserRole Role { get; set; }
+    public EUserRole Role { get; set; }
 }

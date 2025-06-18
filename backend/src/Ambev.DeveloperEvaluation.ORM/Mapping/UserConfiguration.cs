@@ -27,5 +27,25 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasConversion<string>()
             .HasMaxLength(20);
 
+        builder.OwnsOne(o => o.Name)
+            .Property(p => p.Firstname).IsRequired().HasMaxLength(50);
+        builder.OwnsOne(o => o.Name)
+            .Property(p => p.Lastname).IsRequired().HasMaxLength(50);
+
+        builder.OwnsOne(o => o.Address)
+            .Property(p => p.City).IsRequired().HasMaxLength(70);
+        builder.OwnsOne(o => o.Address)
+            .Property(p => p.Street).IsRequired().HasMaxLength(50);
+        builder.OwnsOne(o => o.Address)
+            .Property(p => p.Number).IsRequired().HasMaxLength(20);
+        builder.OwnsOne(o => o.Address)
+            .Property(p => p.Zipcode).IsRequired().HasMaxLength(16);
+
+        builder.OwnsOne(o => o.Address)
+            .OwnsOne(p => p.Geolocation)
+                .Property(p => p.Lat).IsRequired().HasMaxLength(12);
+        builder.OwnsOne(o => o.Address)
+            .OwnsOne(p => p.Geolocation)
+                .Property(p => p.Long).IsRequired().HasMaxLength(13);
     }
 }

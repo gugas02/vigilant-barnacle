@@ -3,6 +3,7 @@ using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Validation;
+using Ambev.DeveloperEvaluation.Domain.ValueObjects;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
@@ -14,22 +15,16 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 public class User : BaseEntity, IUser
 {
     /// <summary>
-    /// Gets the user's full name.
-    /// Must not be null or empty and should contain both first and last names.
-    /// </summary>
-    public string Username { get; set; } = string.Empty;
-
-    /// <summary>
     /// Gets the user's email address.
     /// Must be a valid email format and is used as a unique identifier for authentication.
     /// </summary>
     public string Email { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the user's phone number.
-    /// Must be a valid phone number format following the pattern (XX) XXXXX-XXXX.
+    /// Gets the user's full name.
+    /// Must not be null or empty and should contain username.
     /// </summary>
-    public string Phone { get; set; } = string.Empty ;
+    public string Username { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets the hashed password for authentication.
@@ -39,16 +34,34 @@ public class User : BaseEntity, IUser
     public string Password { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the user's role in the system.
-    /// Determines the user's permissions and access levels.
+    /// Gets the user's fullname.
+    /// Must not be null or empty and should contain both first and last names.
     /// </summary>
-    public UserRole Role { get;     set; }
+    public Name Name { get; set; }
+
+    /// <summary>
+    /// Gets the user's Address.
+    /// Must not be null or empty and should contain user main address.
+    /// </summary>
+    public Address Address { get; set; }
+
+    /// <summary>
+    /// Gets the user's phone number.
+    /// Must be a valid phone number format following the pattern (XX) XXXXX-XXXX.
+    /// </summary>
+    public string Phone { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets the user's current status.
     /// Indicates whether the user is active, inactive, or blocked in the system.
     /// </summary>
-    public UserStatus Status { get; set; }
+    public EUserStatus Status { get; set; }
+
+    /// <summary>
+    /// Gets the user's role in the system.
+    /// Determines the user's permissions and access levels.
+    /// </summary>
+    public EUserRole Role { get; set; }
 
     /// <summary>
     /// Gets the date and time when the user was created.
@@ -120,7 +133,7 @@ public class User : BaseEntity, IUser
     /// </summary>
     public void Activate()
     {
-        Status = UserStatus.Active;
+        Status = EUserStatus.Active;
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -130,7 +143,7 @@ public class User : BaseEntity, IUser
     /// </summary>
     public void Deactivate()
     {
-        Status = UserStatus.Inactive;
+        Status = EUserStatus.Inactive;
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -140,7 +153,23 @@ public class User : BaseEntity, IUser
     /// </summary>
     public void Suspend()
     {
-        Status = UserStatus.Suspended;
+        Status = EUserStatus.Suspended;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    /// <summary>
+    /// Update user data.
+    /// Changes the user's status to Blocked.
+    /// </summary>
+    public void Update(User user)
+    {
+        Email = user.Email;
+        Username = user.Username;
+        Name = user.Name;
+        Address = user.Address;
+        Phone = user.Phone;
+        Status = user.Status;
+        Role = user.Role;
         UpdatedAt = DateTime.UtcNow;
     }
 }

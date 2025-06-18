@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Common.Validation;
+﻿using Ambev.DeveloperEvaluation.Application.Common;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using MediatR;
 
@@ -41,14 +42,26 @@ public class CreateUserCommand : IRequest<CreateUserResult>
     public string Email { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets the user's fullname.
+    /// Must not be null or empty and should contain both first and last names.
+    /// </summary>
+    public CreateNameCommand Name { get; set; }
+
+    /// <summary>
+    /// Gets the user's Address.
+    /// Must not be null or empty and should contain user main address.
+    /// </summary>
+    public CreateAddressCommand Address { get; set; }
+
+    /// <summary>
     /// Gets or sets the status of the user.
     /// </summary>
-    public UserStatus Status { get; set; }
+    public EUserStatus Status { get; set; }
 
     /// <summary>
     /// Gets or sets the role of the user.
     /// </summary>
-    public UserRole Role { get; set; }
+    public EUserRole Role { get; set; }
 
 
     public ValidationResultDetail Validate()

@@ -36,6 +36,12 @@ public interface IUserRepository
     /// </summary>
     /// <param name="id">The unique identifier of the user to delete</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>True if the user was deleted, false if not found</returns>
-    Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+    void Delete(User user, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Update a user in the repository
+    /// </summary>
+    /// <param name="user">The user to update</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    void Update(User user, CancellationToken cancellationToken = default);
 }

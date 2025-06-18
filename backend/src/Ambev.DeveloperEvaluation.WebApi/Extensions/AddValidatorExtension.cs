@@ -1,0 +1,20 @@
+using System.Diagnostics.CodeAnalysis;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
+using FluentValidation;
+
+namespace Ambev.DeveloperEvaluation.WebApi.Extensions;
+
+[ExcludeFromCodeCoverage]
+public static class AddValidatorExtension
+{
+    public static void AddValidators(this IServiceCollection services)
+    {
+        services.AddScoped<IValidator<CreateUserRequest>, CreateUserRequestValidator>();
+        services.AddScoped<IValidator<GetUserRequest>, GetUserRequestValidator>();
+        services.AddScoped<IValidator<DeleteUserRequest>, DeleteUserRequestValidator>();
+        services.AddScoped<IValidator<UpdateUserRequest>, UpdateUserRequestValidator>();
+    }
+}

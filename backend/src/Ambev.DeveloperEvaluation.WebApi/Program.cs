@@ -2,11 +2,13 @@ using Ambev.DeveloperEvaluation.Application;
 using Ambev.DeveloperEvaluation.Common.HealthChecks;
 using Ambev.DeveloperEvaluation.Common.Logging;
 using Ambev.DeveloperEvaluation.Common.Security;
+using Ambev.DeveloperEvaluation.Common.Transaction;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.IoC;
 using Ambev.DeveloperEvaluation.ORM;
+using Ambev.DeveloperEvaluation.WebApi.Filters;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
-using MediatR;
+using Ambev.DeveloperEvaluation.WebApi.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -23,7 +25,11 @@ public class Program
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
             builder.AddDefaultLogging();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<ValidationActionFilter>();
+            });
+
             builder.Services.AddEndpointsApiExplorer();
 
             builder.AddBasicHealthChecks();
@@ -37,7 +43,8 @@ public class Program
             );
 
             builder.Services.AddJwtAuthentication(builder.Configuration);
-
+          
+            builder.Services.AddValidators();
             builder.RegisterDependencies();
 
             builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(ApplicationLayer).Assembly);
@@ -48,9 +55,9 @@ public class Program
                     typeof(ApplicationLayer).Assembly,
                     typeof(Program).Assembly
                 );
+                cfg.AddOpenBehavior(typeof(UnitOfWorkBehavior<,>));
+                cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
             });
-
-            builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             var app = builder.Build();
             app.UseMiddleware<ValidationExceptionMiddleware>();
