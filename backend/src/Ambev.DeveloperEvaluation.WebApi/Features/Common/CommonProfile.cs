@@ -18,8 +18,11 @@ public class CommonProfile : Profile
 
         CreateMap<CreateGeolocationRequest, CreateGeolocationCommand>();
         CreateMap<CreateGeolocationCommand, CreateGeolocationRequest>();
-        
+
         CreateMap<CreateAddressRequest, CreateAddressCommand>();
         CreateMap<CreateAddressCommand, CreateAddressRequest>();
+        
+        CreateMap<CreateRatingRequest, CreateRatingCommand>();
+        CreateMap<CreateRatingCommand, CreateRatingRequest>();
     }
 }

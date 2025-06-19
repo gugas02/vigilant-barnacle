@@ -15,11 +15,14 @@ public class CommonProfile : Profile
     {
         CreateMap<CreateNameCommand, Name>();
         CreateMap<Name, CreateNameCommand>();
-        
+
         CreateMap<CreateGeolocationCommand, Geolocation>();
         CreateMap<Geolocation, CreateGeolocationCommand>();
 
         CreateMap<CreateAddressCommand, Address>();
         CreateMap<Address, CreateAddressCommand>();
+        
+        CreateMap<CreateRatingCommand, Rating>();
+        CreateMap<Rating, CreateRatingCommand>();
     }
 }
