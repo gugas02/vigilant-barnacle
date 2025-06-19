@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Domain.Validation;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Auth.AuthenticateUserFeature;
@@ -12,14 +13,7 @@ public class AuthenticateUserRequestValidator : AbstractValidator<AuthenticateUs
     /// </summary>
     public AuthenticateUserRequestValidator()
     {
-        RuleFor(x => x.Email)
-            .NotEmpty()
-            .WithMessage("Email is required")
-            .EmailAddress()
-            .WithMessage("Invalid email format");
-
-        RuleFor(x => x.Password)
-            .NotEmpty()
-            .WithMessage("Password is required");
+        RuleFor(user => user.Username).NotEmpty().Length(3, 50);
+        RuleFor(user => user.Password).SetValidator(new PasswordValidator());
     }
 }

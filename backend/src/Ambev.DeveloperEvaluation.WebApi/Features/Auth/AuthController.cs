@@ -39,21 +39,10 @@ public class AuthController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> AuthenticateUser([FromBody] AuthenticateUserRequest request, CancellationToken cancellationToken)
-    {
-        var validator = new AuthenticateUserRequestValidator();
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-        if (!validationResult.IsValid)
-            return BadRequestResult(validationResult.Errors);
-
+    {   
         var command = _mapper.Map<AuthenticateUserCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return OkResult(new ApiResponseWithData<AuthenticateUserResponse>
-        {
-            // Success = true,
-            // Message = "User authenticated successfully",
-            Data = _mapper.Map<AuthenticateUserResponse>(response)
-        });
+        return OkResult(_mapper.Map<AuthenticateUserResponse>(response));
     }
 }

@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Domain.Validation;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser
@@ -6,13 +7,8 @@ namespace Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser
     {
         public AuthenticateUserValidator()
         {
-            RuleFor(x => x.Email)
-                .NotEmpty()
-                .EmailAddress();
-
-            RuleFor(x => x.Password)
-                .NotEmpty()
-                .MinimumLength(6);
+            RuleFor(user => user.Username).NotEmpty().Length(3, 50);
+            RuleFor(user => user.Password).SetValidator(new PasswordValidator());
         }
     }
 }
