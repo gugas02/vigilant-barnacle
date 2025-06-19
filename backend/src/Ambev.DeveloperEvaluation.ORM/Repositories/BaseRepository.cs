@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
+using System.Linq.Expressions;
+using System.Linq.Dynamic.Core;
+
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 
 [ExcludeFromCodeCoverage]
@@ -11,6 +14,7 @@ public class BaseRepository<T>
     : IDisposable where T : BaseEntity
 {
     private readonly DefaultContext _context;
+
     public BaseRepository(DefaultContext context)
     {
         _context = context;
@@ -31,9 +35,19 @@ public class BaseRepository<T>
         return await _context.Set<T>().FirstOrDefaultAsync<T>(predicate, cancellationToken);
     }
 
-    public IQueryable<T> List()
+    public async Task<PaginatedQueryResult<T>> ListAsync(int pageNumber, int pageSize, string order, CancellationToken cancellationToken = default)
     {
-        return _context.Set<T>();
+        var totalRecords = await _context.Set<T>().AsNoTracking().CountAsync();
+
+        var entities = await _context.Set<T>().AsNoTracking()
+            .OrderBy(order)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
+        var pagedResponse = new PaginatedQueryResult<T>(entities, pageNumber, totalRecords, pageSize);
+
+        return pagedResponse;
     }
 
     public async Task Add(T item, CancellationToken cancellationToken)

@@ -10,6 +10,9 @@ using Ambev.DeveloperEvaluation.Application.Users.GetUser;
 using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
 using Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
+using Ambev.DeveloperEvaluation.Application.Common;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUsers;
+using Ambev.DeveloperEvaluation.Application.Users.GetUsers;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users;
 
@@ -55,20 +58,20 @@ public class UsersController : BaseController
     /// <summary>
     /// Retrieves a user by their ID
     /// </summary>
-    /// <param name="id">The unique identifier of the user</param>
+    /// <param name="model">The page options for a list user</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The user details if found</returns>
-    [HttpGet("{Id}")]
-    [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
+    [HttpGet]
+    [ProducesResponseType(typeof(PaginatedList<GetUsersResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetUser([FromRoute] GetUserRequest model, CancellationToken cancellationToken)
+    public async Task<IActionResult> ListUser([FromQuery] GetUsersRequest model, CancellationToken cancellationToken)
     {
-        var command = _mapper.Map<GetUserCommand>(model.Id);
+        var command = _mapper.Map<GetUsersCommand>(model);
 
         var response = await _mediator.Send(command, cancellationToken);
 
-        return OkResult(_mapper.Map<GetUserResponse>(response));
+        return OkResult(_mapper.Map<PaginatedList<GetUsersResponse>>(response));
     }
 
     /// <summary>
@@ -87,6 +90,25 @@ public class UsersController : BaseController
         var response = await _mediator.Send(command, cancellationToken);
 
         return CreatedResult(_mapper.Map<UpdateUserResponse>(response));
+    }
+
+    /// <summary>
+    /// Retrieves a user by their ID
+    /// </summary>
+    /// <param name="id">The unique identifier of the user</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The user details if found</returns>
+    [HttpGet("{Id}")]
+    [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetUser([FromRoute] GetUserRequest model, CancellationToken cancellationToken)
+    {
+        var command = _mapper.Map<GetUserCommand>(model.Id);
+
+        var response = await _mediator.Send(command, cancellationToken);
+
+        return OkResult(_mapper.Map<GetUserResponse>(response));
     }
 
     /// <summary>

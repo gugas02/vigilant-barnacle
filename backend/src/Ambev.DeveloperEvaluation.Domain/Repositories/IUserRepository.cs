@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
@@ -14,6 +15,16 @@ public interface IUserRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The created user</returns>
     Task<User> CreateAsync(User user, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves a list of users
+    /// </summary>
+    /// <param name="pageNumber">Page number</param>
+    /// <param name="pageSize">Page size</param>
+    /// <param name="order">Page order</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The user if found, null otherwise</returns>
+    Task<PaginatedQueryResult<User>> ListAsync(int pageNumber, int pageSize, string order, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a user by their unique identifier

@@ -1,0 +1,9 @@
+I'd avoid automapper and mediator libs cause its going commercial soon.
+Change id of tables from guid to id to save database space.
+I'd not use the request and response model and receive a command or query in my controller to avoid code duplication.
+    by removing it you also reduce code done inside controller 
+    also a little boost in performance because it has less automapper calls
+
+
+
+implement logger

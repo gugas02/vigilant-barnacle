@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,19 @@ public class UserRepository : BaseRepository<User>, IUserRepository
     {
         await Add(user, cancellationToken);
         return user;
+    }
+
+    /// <summary>
+    /// Retrieves a list of users
+    /// </summary>
+    /// <param name="pageNumber">Page number</param>
+    /// <param name="pageSize">Page size</param>
+    /// <param name="order">Page order</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The user if found, null otherwise</returns>
+    public new async Task<PaginatedQueryResult<User>> ListAsync(int pageNumber, int pageSize, string order, CancellationToken cancellationToken = default)
+    {
+        return await base.ListAsync(pageNumber, pageSize, order, cancellationToken);
     }
 
     /// <summary>
