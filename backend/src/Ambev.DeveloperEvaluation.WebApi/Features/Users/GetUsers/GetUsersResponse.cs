@@ -47,10 +47,10 @@ public class GetUsersResponse : ApiResponse
     /// <summary>
     /// The initial status of the user account.
     /// </summary>
-    public EUserStatus Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
     /// <summary>
     /// The role assigned to the user.
     /// </summary>
-    public EUserRole Role { get; set; }
+    public string Role { get; set; } = string.Empty;
 }

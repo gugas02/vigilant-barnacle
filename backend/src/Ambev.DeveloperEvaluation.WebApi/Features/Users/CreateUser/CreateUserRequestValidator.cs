@@ -32,7 +32,7 @@ public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
         RuleFor(user => user.Name).SetValidator(new CreateNameRequestValidator());
         RuleFor(user => user.Address).SetValidator(new CreateAddressRequestValidator());
         RuleFor(user => user.Phone).Matches(@"^\+?[1-9]\d{1,14}$");
-        RuleFor(user => user.Status).NotEqual(EUserStatus.Unknown);
-        RuleFor(user => user.Role).NotEqual(EUserRole.None);
+        RuleFor(user => user.Status).NotEmpty();
+        RuleFor(user => user.Role).NotEmpty();
     }
 }

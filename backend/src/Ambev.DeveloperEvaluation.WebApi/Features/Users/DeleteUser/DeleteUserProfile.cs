@@ -16,6 +16,8 @@ public class DeleteUserProfile : Profile
         CreateMap<Guid, Application.Users.DeleteUser.DeleteUserCommand>()
             .ConstructUsing(id => new Application.Users.DeleteUser.DeleteUserCommand(id));
             
-        CreateMap<DeleteUserResult, DeleteUserResponse>();
+        CreateMap<DeleteUserResult, DeleteUserResponse>()
+            .ForMember(dest => dest.Status, opt =>  opt.MapFrom(src => src.Status.ToString()))
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()));
     }
 }

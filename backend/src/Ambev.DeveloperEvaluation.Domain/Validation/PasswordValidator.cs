@@ -9,6 +9,7 @@ public class PasswordValidator : AbstractValidator<string>
         RuleFor(password => password)
             .NotEmpty()
             .MinimumLength(8)
+            .MaximumLength(100)
             .WithMessage("Password must at least 8 characters.")
             .Matches(@"[A-Z]+").WithMessage("Password must contain at least one uppercase letter.")
             .Matches(@"[a-z]+").WithMessage("Password must contain at least one lowercase letter.")

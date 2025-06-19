@@ -1,5 +1,6 @@
 using AutoMapper;
 using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
 
@@ -13,7 +14,12 @@ public class CreateUserProfile : Profile
     /// </summary>
     public CreateUserProfile()
     {
-        CreateMap<CreateUserRequest, CreateUserCommand>();
-        CreateMap<CreateUserResult, CreateUserResponse>();
+        CreateMap<CreateUserRequest, CreateUserCommand>()
+            .ForMember(x => x.Status, opt => opt.MapFrom(src => Enum.Parse<EUserStatus>(src.Status)))
+            .ForMember(x => x.Role, opt => opt.MapFrom(src => Enum.Parse<EUserRole>(src.Role)));
+            
+        CreateMap<CreateUserResult, CreateUserResponse>()
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()))
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()));
     }
 }

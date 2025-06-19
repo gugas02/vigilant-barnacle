@@ -51,10 +51,10 @@ public class UpdateUserResponse : ApiResponse
     /// <summary>
     /// Gets or sets the initial status of the user account.
     /// </summary>
-    public EUserStatus Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the role assigned to the user.
     /// </summary>
-    public EUserRole Role { get; set; }
+    public string Role { get; set; } = string.Empty;
 }

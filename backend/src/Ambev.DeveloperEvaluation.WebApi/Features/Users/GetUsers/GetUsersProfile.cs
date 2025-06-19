@@ -15,7 +15,9 @@ public class GetUsersProfile : Profile
     public GetUsersProfile()
     {
         CreateMap<GetUsersRequest, GetUsersCommand>();
-        CreateMap<GetUsersResult, GetUsersResponse>(); 
+        CreateMap<GetUsersResult, GetUsersResponse>()
+            .ForMember(dest => dest.Status, opt =>  opt.MapFrom(src => src.Status.ToString()))
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString())); 
         CreateMap(typeof(PaginatedList<>), typeof(PaginatedList<>));
     }
 }
