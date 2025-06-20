@@ -134,7 +134,7 @@ public class Cart : BaseEntity
         int? removeFrom = null;
         for (int i = 0; i < count; i++)
         {
-            if (this.Products.Count >= i && products.Count >= i)
+            if (this.Products.Count > i && products.Count >= i)
             {
                 this.Products[i].Update(products[i]);
             }

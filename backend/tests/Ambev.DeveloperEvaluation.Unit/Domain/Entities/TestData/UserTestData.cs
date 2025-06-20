@@ -41,6 +41,16 @@ public static class UserTestData
     }
 
     /// <summary>
+    /// Generates a second valid User entity with randomized data, different from the first.
+    /// </summary>
+    /// <returns>A valid User entity with different randomized data.</returns>
+    public static User GenerateAnotherValidUser()
+    {
+        // Ensure different data by generating a new user
+        return UserFaker.Generate();
+    }
+
+    /// <summary>
     /// Generates a valid email address using Faker.
     /// The generated email will:
     /// - Follow the standard email format (user@domain.com)

@@ -133,36 +133,6 @@ public class User : BaseEntity, IUser
     }
 
     /// <summary>
-    /// Activates the user account.
-    /// Changes the user's status to Active.
-    /// </summary>
-    public void Activate()
-    {
-        Status = EUserStatus.Active;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    /// <summary>
-    /// Deactivates the user account.
-    /// Changes the user's status to Inactive.
-    /// </summary>
-    public void Deactivate()
-    {
-        Status = EUserStatus.Inactive;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    /// <summary>
-    /// Blocks the user account.
-    /// Changes the user's status to Blocked.
-    /// </summary>
-    public void Suspend()
-    {
-        Status = EUserStatus.Suspended;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    /// <summary>
     /// Update user data.
     /// Changes the user's status to Blocked.
     /// </summary>

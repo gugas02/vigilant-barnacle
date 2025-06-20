@@ -30,7 +30,7 @@ public class ProductValidator : AbstractValidator<Product>
 
         RuleFor(name => name.Price)
             .NotNull()
-            .GreaterThanOrEqualTo(0).WithMessage("Rate must be greater or equal to 0.");
+            .GreaterThan(0).WithMessage("Rate must be greater than 0.");
 
         RuleFor(user => user.Rating).SetValidator(new RatingValidator());
     }
