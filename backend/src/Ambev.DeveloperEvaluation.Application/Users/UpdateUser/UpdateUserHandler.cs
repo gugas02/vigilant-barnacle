@@ -36,13 +36,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The updated user details</returns>
     public async Task<UpdateUserResult> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
-    {
-        var validator = new UpdateUserCommandValidator();
-        var validationResult = await validator.ValidateAsync(command, cancellationToken);
-
-        if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.Errors);
-
+    { 
         var existingUser = await _userRepository.GetByIdAsync(command.Id, cancellationToken);
         if (existingUser == null)
             throw new ValidationException($"User with email {command.Id} not found.");

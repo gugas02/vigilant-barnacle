@@ -35,12 +35,6 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
     /// <returns>The updated product details</returns>
     public async Task<UpdateProductResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
-        var validator = new UpdateProductCommandValidator();
-        var validationResult = await validator.ValidateAsync(command, cancellationToken);
-
-        if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.Errors);
-
         var existingProduct = await _productRepository.GetByIdAsync(command.Id, cancellationToken);
         if (existingProduct == null)
             throw new ValidationException($"Product with email {command.Id} not found.");

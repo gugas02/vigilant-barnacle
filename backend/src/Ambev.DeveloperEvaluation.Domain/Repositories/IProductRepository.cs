@@ -29,10 +29,18 @@ public interface IProductRepository
     /// <summary>
     /// Retrieves a product by their unique identifier
     /// </summary>
-    /// <param name="id">The unique identifier of the product</param>
+    /// <param name="id">The unique identifiers of the products</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The products if found, null otherwise</returns>
+    Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves a product by their unique identifiers
+    /// </summary>
+    /// <param name="ids">The unique identifier of the product</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The product if found, null otherwise</returns>
-    Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<List<Product>?> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a product by their name
@@ -55,4 +63,12 @@ public interface IProductRepository
     /// <param name="product">The product to update</param>
     /// <param name="cancellationToken">Cancellation token</param>
     void Update(Product product, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Check if a list of product id exists.
+    /// </summary>
+    /// <param name="list">The list of product ids</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>True if entire list found, false otherwise</returns>
+    Task<bool> IsIdListValid(List<Guid> list, CancellationToken cancellationToken = default);
 }

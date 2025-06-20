@@ -51,6 +51,11 @@ public class Product : BaseEntity
     public Rating Rating { get; set; }
 
     /// <summary>
+    /// Gets the cart itens's that has this product.
+    /// </summary>
+    public List<CartItem> CartItems { get; set; }
+
+    /// <summary>
     /// Gets the date and time when the product was created.
     /// </summary>
     public DateTime CreatedAt { get; set; }

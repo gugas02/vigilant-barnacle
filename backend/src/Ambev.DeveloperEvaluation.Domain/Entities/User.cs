@@ -62,6 +62,11 @@ public class User : BaseEntity, IUser
     /// Determines the user's permissions and access levels.
     /// </summary>
     public EUserRole Role { get; set; }
+    
+    /// <summary>
+    /// Gets the user's carts.
+    /// </summary>
+    public List<Cart> Carts { get; set; }
 
     /// <summary>
     /// Gets the date and time when the user was created.

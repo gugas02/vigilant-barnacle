@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using System.Linq.Expressions;
 using System.Linq.Dynamic.Core;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 
@@ -20,9 +21,15 @@ public class BaseRepository<T>
         _context = context;
     }
 
-    public async Task<T?> Find(Guid id, CancellationToken cancellationToken)
+    public async Task<T?> Find(Guid id, CancellationToken cancellationToken, params string[] includes)
     {
-        return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        IQueryable<T> query = _context.Set<T>();
+        if (includes != null)
+        {
+            query = includes.Aggregate(query,
+                    (current, include) => current.Include(include));
+        }
+        return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public IQueryable<T> Find(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
@@ -35,11 +42,18 @@ public class BaseRepository<T>
         return await _context.Set<T>().FirstOrDefaultAsync<T>(predicate, cancellationToken);
     }
 
-    public async Task<PaginatedQueryResult<T>> ListAsync(int pageNumber, int pageSize, string order, CancellationToken cancellationToken = default)
+    public async Task<PaginatedQueryResult<T>> ListAsync(int pageNumber, int pageSize, string order, CancellationToken cancellationToken = default, params string[] includes)
     {
         var totalRecords = await _context.Set<T>().AsNoTracking().CountAsync();
 
-        var entities = await _context.Set<T>().AsNoTracking()
+        IQueryable<T> query = _context.Set<T>().AsNoTracking();
+        if (includes != null)
+        {
+            query = includes.Aggregate(query,
+                    (current, include) => current.Include(include));
+        }
+
+        var entities = await query
             .OrderBy(order)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)

@@ -22,6 +22,63 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Cart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Carts", (string)null);
+                });
+
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartItems", (string)null);
+                });
+
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -115,6 +172,36 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Cart", b =>
+                {
+                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.User", "User")
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartItem", b =>
+                {
+                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Cart", "Cart")
+                        .WithMany("Products")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Product", "Product")
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Product", b =>
@@ -235,6 +322,21 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 
                     b.Navigation("Name")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Cart", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Carts");
                 });
 #pragma warning restore 612, 618
         }

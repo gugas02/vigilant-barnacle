@@ -1,5 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using Ambev.DeveloperEvaluation.WebApi.Features.Auth.AuthenticateUserFeature;
+using Ambev.DeveloperEvaluation.WebApi.Features.CartItems.CreateCartItem;
+using Ambev.DeveloperEvaluation.WebApi.Features.CartItems.UpdateCartItem;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCart;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCart;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCart;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
@@ -32,5 +39,14 @@ public static class AddValidatorExtension
         services.AddScoped<IValidator<GetProductsRequest>, GetProductsRequestValidator>();
         services.AddScoped<IValidator<DeleteProductRequest>, DeleteProductRequestValidator>();
         services.AddScoped<IValidator<UpdateProductRequest>, UpdateProductRequestValidator>();
+        
+        services.AddScoped<IValidator<CreateCartRequest>, CreateCartRequestValidator>();
+        services.AddScoped<IValidator<GetCartRequest>, GetCartRequestValidator>();
+        services.AddScoped<IValidator<GetCartsRequest>, GetCartsRequestValidator>();
+        services.AddScoped<IValidator<DeleteCartRequest>, DeleteCartRequestValidator>();
+        services.AddScoped<IValidator<UpdateCartRequest>, UpdateCartRequestValidator>();
+        
+        services.AddScoped<IValidator<CreateCartItemRequest>, CreateCartItemRequestValidator>();
+        services.AddScoped<IValidator<UpdateCartItemRequest>, UpdateCartItemRequestValidator>();
     }
 }

@@ -15,6 +15,11 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
+        if (_validators is null || !_validators.Any())
+        {
+            throw new InvalidOperationException($"No validator found for: {typeof(TRequest)}");
+        }
+
         if (_validators.Any())
         {
             var context = new ValidationContext<TRequest>(request);

@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Common;
+﻿using System.Threading.Tasks;
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
     /// Initializes a new instance of ProductRepository
     /// </summary>
     /// <param name="context">The database context</param>
-    public ProductRepository(DefaultContext context): base(context)
+    public ProductRepository(DefaultContext context) : base(context)
     {
     }
 
@@ -55,6 +56,17 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
     }
 
     /// <summary>
+    /// Retrieves a product by their unique identifier
+    /// </summary>
+    /// <param name="ids">The unique identifiers of the products</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The products if found, null otherwise</returns>
+    public async Task<List<Product>?> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default)
+    {
+        return await Find(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// Retrieves a product by their productname address
     /// </summary>
     /// <param name="productname">The productname address to search for</param>
@@ -83,5 +95,16 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
     public void Update(Product product, CancellationToken cancellationToken = default)
     {
         base.Update(product);
+    }
+
+    public async Task<bool> IsIdListValid(List<Guid> list, CancellationToken cancellationToken = default)
+    {
+        var validIds = await Find(x => list.Contains(x.Id))
+                .Select(x => x.Id)
+                .ToListAsync(cancellationToken); 
+
+        var invalidIdsLst = list.Except(validIds);
+
+        return !invalidIdsLst.Any();
     }
 }
