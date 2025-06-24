@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Application.CartItems.CreateCartItem;
+﻿using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
+using Ambev.DeveloperEvaluation.Application.CartItems.CreateCartItem;
 using Ambev.DeveloperEvaluation.Application.CartItems.UpdateCartItem;
 using Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
 using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
@@ -32,6 +33,8 @@ public class ApplicationModuleInitializer : IModuleInitializer
         builder.Services.AddScoped<IValidator<GetUsersCommand>, GetUsersCommandValidator>();
         builder.Services.AddScoped<IValidator<DeleteUserCommand>, DeleteUserCommandValidator>();
         builder.Services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
+
+        builder.Services.AddScoped<IValidator<AuthenticateUserCommand>, AuthenticateUserValidator>();        
 
         builder.Services.AddScoped<IValidator<CreateProductCommand>, CreateProductCommandValidator>();
         builder.Services.AddScoped<IValidator<GetProductCommand>, GetProductCommandValidator>();

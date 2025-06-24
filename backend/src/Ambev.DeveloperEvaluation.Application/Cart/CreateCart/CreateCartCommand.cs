@@ -9,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
 /// </summary>
 /// <remarks>
 /// This command is used to capture the required data for creating a cart, 
-/// including cartname, password, phone number, email, status, and role. 
+/// including date, user id and products. 
 /// It implements <see cref="IRequest{TResponse}"/> to initiate the request 
 /// that returns a <see cref="CreateCartResult"/>.
 /// 

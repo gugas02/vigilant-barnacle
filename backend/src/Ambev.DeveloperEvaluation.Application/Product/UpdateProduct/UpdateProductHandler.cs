@@ -37,7 +37,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
     {
         var existingProduct = await _productRepository.GetByIdAsync(command.Id, cancellationToken);
         if (existingProduct == null)
-            throw new ValidationException($"Product with email {command.Id} not found.");
+            throw new ValidationException($"Product with id {command.Id} not found.");
 
         var newProduct = _mapper.Map<Product>(command);
         var validationErros = newProduct.Validate();

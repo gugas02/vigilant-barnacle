@@ -10,7 +10,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
 /// </summary>
 /// <remarks>
 /// This command is used to capture the required data for creating a product, 
-/// including productname, password, phone number, email, status, and role. 
+/// including title, price, description, category, image, id and rating. 
 /// It implements <see cref="IRequest{TResponse}"/> to initiate the request 
 /// that returns a <see cref="CreateProductResult"/>.
 /// 

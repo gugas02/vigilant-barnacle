@@ -41,7 +41,7 @@ public class UpdateCartHandler : IRequestHandler<UpdateCartCommand, UpdateCartRe
     {
         var existingCart = await _cartRepository.GetByIdAsync(command.Id, cancellationToken);
         if (existingCart == null)
-            throw new ValidationException($"Cart with email {command.Id} not found.");
+            throw new ValidationException($"Cart with id {command.Id} not found.");
 
         var existingUser = await _userRepository.GetByIdAsync(command.UserId, cancellationToken);
         if (existingUser == null)
